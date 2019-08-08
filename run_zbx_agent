@@ -1,0 +1,9 @@
+docker run -t \
+  --name zbx-agent-$1 \
+  --network bogatka-net \
+  --restart unless-stopped \
+  -e ZBX_HOSTNAME="$1" \
+  -e ZBX_SERVER_HOST="zabbix-server-pgsql" \
+  --link zabbix-server-pgsql:zabbix-server \
+  --privileged \
+  -d zabbix/zabbix-agent:latest
