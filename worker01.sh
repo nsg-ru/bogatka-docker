@@ -6,7 +6,7 @@
 # docker swarm join --token SWMTKN-1-499kh1rwx9fz6w7612zjefnjt0wfax6n3gnnddcfjpgf9pl5bm-9r6axrv8vh4a0sz14lrlv1s5i 10.33.33.31:2377
 
 
-run_postgres_replica(southport)
+run_postgres_replica southport
 
 # Server SouthPort
 # --name and --hostname must be the same
