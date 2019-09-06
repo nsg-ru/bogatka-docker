@@ -11,16 +11,6 @@
 # ***** Богатка *****
 
 # PostgreSQL
-# docker run -t \
-#   --name acari-server-db \
-#   --network bogatka-net \
-#   --restart unless-stopped \
-#   -e POSTGRES_PASSWORD=postgres \
-#   -e POSTGRES_DB=acari_server_prod \
-#   -v /var/lib/postgresql/docker/acari-server/data:/var/lib/postgresql/data \
-#   -v /etc/localtime:/etc/localtime:ro \
-#   -d postgres:11.2-alpine
-
 docker run -t \
   --name acari-server-db \
   --network bogatka-net \
