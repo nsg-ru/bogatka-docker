@@ -10,7 +10,7 @@ run_bogatka()
     -e ZBX_WEB_PORT=10443 \
     -e ZBX_SND_HOST="zabbix-server-pgsql" \
     -p 443:50443 \
-    -p 51019:50019 \
+    -p 50019:50019 \
     -v /etc/ssl/acari:/etc/ssl/acari:ro \
     -v /var/log/acari_foo:/var/log \
     -v /etc/localtime:/etc/localtime:ro \
