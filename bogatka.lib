@@ -6,6 +6,7 @@ run_bogatka()
     --network bogatka-net \
     --restart unless-stopped \
     -e DB_HOST=acari-server-db \
+    -e ZBX_EXT_URL="https://10.33.33.31:10443" \
     -e ZBX_API_URL="http://zabbix-web-nginx-pgsql" \
     -e ZBX_WEB_PORT=10443 \
     -e ZBX_SND_HOST="zabbix-server-pgsql" \
@@ -19,4 +20,22 @@ run_bogatka()
     --cap-add=NET_ADMIN \
     --device /dev/net/tun:/dev/net/tun \
     -d ileamo/acari-server
+}
+
+run_postgres_replica()
+{
+  docker run -t \
+    --name  acari-server-db-$1 \
+    --network bogatka-net \
+    --restart unless-stopped \
+    --link acari-server-db:master \
+    -e POSTGRESQL_REPLICATION_MODE=slave \
+    -e POSTGRESQL_MASTER_HOST=master \
+    -e POSTGRESQL_MASTER_PORT_NUMBER=5432 \
+    -e POSTGRESQL_PASSWORD=postgres \
+    -e POSTGRESQL_REPLICATION_USER=postgres \
+    -e POSTGRESQL_REPLICATION_PASSWORD=postgres \
+    -v /var/lib/postgresql/docker/acari-server-$1:/bitnami/postgresql \
+    -v /etc/localtime:/etc/localtime:ro \
+    -d bitnami/postgresql:latest
 }
