@@ -39,3 +39,12 @@ run_postgres_replica()
     -v /etc/localtime:/etc/localtime:ro \
     -d bitnami/postgresql:latest
 }
+
+migrate_db()
+{
+  docker run -t \
+    --network bogatka-net \
+    -e DB_HOST=acari-server-db \
+    --cap-add=NET_ADMIN \
+    ileamo/acari-server migrate
+}

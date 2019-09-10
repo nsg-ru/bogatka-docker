@@ -2,6 +2,7 @@
 . ./bogatka.lib
 
 docker pull ileamo/acari-server
+migrate_db
 docker stop $1
 docker container rm $1
 run_bogatka $1

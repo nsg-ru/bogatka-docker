@@ -26,11 +26,5 @@ docker run -t \
   -d bitnami/postgresql:latest
 
 
-# Migrate DB
-docker run -t \
-  --network bogatka-net \
-  -e DB_HOST=acari-server-db \
-  --cap-add=NET_ADMIN \
-  ileamo/acari-server migrate
-
+migrate_db
 run_bogatka skolkovo
