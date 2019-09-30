@@ -6,6 +6,8 @@ run_bogatka()
     --network bogatka-net \
     --restart unless-stopped \
     -e DB_HOST=acari-server-db \
+    -e DB_HOSTS_RW="acari-server-db,acari-server-db-southport" \
+    -e DB_HOSTS_RO="acari-server-db-southport,acari-server-db" \
     -e ZBX_EXT_URL="https://10.33.33.31:10443" \
     -e ZBX_API_URL="http://zabbix-web-nginx-pgsql" \
     -e ZBX_WEB_PORT=10443 \
