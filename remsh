@@ -2,4 +2,4 @@ docker run -it --rm \
 --name remsh \
 --hostname remsh \
 --network bogatka-net \
-bitwalker/alpine-elixir iex --sname remsh --cookie QCXISUNBMGZDASPTPNWP --remsh "docker@skolkovo"
+bitwalker/alpine-elixir iex --sname remsh --cookie QCXISUNBMGZDASPTPNWP --remsh "docker@$1"
