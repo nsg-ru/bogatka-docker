@@ -1,0 +1,5 @@
+docker run -it --rm \
+--name remsh \
+--hostname remsh \
+--network acari-network \
+bitwalker/alpine-elixir iex --sname remsh --cookie QCXISUNBMGZDASPTPNWP --remsh "docker@acari-foo"
