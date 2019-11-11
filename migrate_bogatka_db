@@ -1,7 +1,7 @@
 #!/bin/bash
 
 docker run -t \
-  -e DB_HOST=172.17.0.1 \
-  -e DB_PORT=5432 \
+  --network bogatka-net \
+  -e DB_HOST=bogatka-db \
   --cap-add=NET_ADMIN \
-  bogatka eval "AcariServer.Release.migrate"
+  nsgru/bogatka eval "AcariServer.Release.migrate"
