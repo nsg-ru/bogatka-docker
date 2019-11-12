@@ -1,0 +1,17 @@
+#!/bin/bash
+
+docker run -t \
+  --name bogatka-db-${1-`hostname`} \
+  --network bogatka-net \
+  --restart unless-stopped \
+  --link bogatka-db:master \
+  -e POSTGRESQL_REPLICATION_MODE=slave \
+  -e POSTGRESQL_MASTER_HOST=master \
+  -e POSTGRESQL_MASTER_PORT_NUMBER=5432 \
+  -e POSTGRESQL_PASSWORD=postgres \
+  -e POSTGRESQL_REPLICATION_USER=postgres \
+  -e POSTGRESQL_REPLICATION_PASSWORD=postgres \
+  -v /var/lib/postgresql/docker/bogatka:/bitnami/postgresql \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d bitnami/postgresql:latest
+
