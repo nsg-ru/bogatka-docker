@@ -1,0 +1,71 @@
+#!/bin/bash
+
+run_bogatka_help()
+{
+  echo "OPTIONS:"
+  echo "-u      - Upgrade container"
+  echo "-n NAME - Container name(default `hostname`)"
+  echo "-p PORT - HTTPS port(default 443)"
+  echo "-a PORT - TCP port(default 50019)"
+  echo "-w LIST - List of read-write db names(default bogatka-db)"
+  echo "-o LIST - List of read-only db names(default bogatka-db)"
+}
+
+while getopts "un:p:a:w:o:h" opt
+do
+  case $opt in
+    n) NAME=$OPTARG;;
+    p) HTTPS_PORT=$OPTARG;;
+    a) ACARI_PORT=$OPTARG;;
+    w) DB_RW=$OPTARG;;
+    o) DB_RO=$OPTARG;;
+    h) HELP=true;;
+    u) UPGRADE=true;;
+    *) run_bogatka_help
+       exit 1 ;;
+  esac
+done
+
+if [ $HELP ]
+then
+  run_bogatka_help
+  exit
+fi
+
+NAME=${NAME-`hostname`}
+HTTPS_PORT=${HTTPS_PORT-443}
+ACARI_PORT=${ACARI_PORT-50019}
+DB_RW=${DB_RW-bogatka-db}
+DB_RO=${DB_RO-bogatka-db}
+
+echo "Bogatka will run with parameters:"
+echo "NAME=$NAME"
+echo "HTTPS_PORT=$HTTPS_PORT"
+echo "ACARI_PORT=$ACARI_PORT"
+echo "DB_HOSTS_RW=$DB_RW"
+echo "DB_HOSTS_RO=$DB_RO"
+
+if [ $UPGRADE ]
+then
+  docker pull nsgru/bogatka
+  docker stop $NAME
+  docker container rm $NAME
+fi
+
+docker run -t \
+  --name $NAME \
+  --hostname $NAME \
+  --network bogatka-net \
+  --restart unless-stopped \
+  -e DB_HOSTS_RW="$DB_RW" \
+  -e DB_HOSTS_RO="$DB_RO" \
+  -p $HTTPS_PORT:50443 \
+  -p $ACARI_PORT:50019 \
+  -v /etc/ssl/bogatka:/etc/ssl/acari:ro \
+  -v /var/log/bogatka_$NAME:/var/log \
+  -v /etc/localtime:/etc/localtime:ro \
+  --link bogatka-db \
+  --cap-add=NET_ADMIN \
+  --device /dev/net/tun:/dev/net/tun \
+  -d nsgru/bogatka
+
