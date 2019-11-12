@@ -33,14 +33,13 @@ docker network rm ingress
 ```
 
 Проверитиь наличие созданных объектов:
-
 ```bash
 docker node ls
 ```
-
+```text
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
 eq5uad0m7xyp67hhi7340iw8i *   southport           Ready               Active              Leader              19.03.4
-
+```
 $ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 38rm36nd0l9w        bogatka-net         overlay             swarm
