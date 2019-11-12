@@ -1,29 +1,39 @@
-MANAGER
+# MANAGER
 
 Отключиться от облака, если ранее были подключены
-$ docker swarm leave --force
-
+```bash
+docker swarm leave --force
+```
 Подготовить рабочую папку
-$ mkdir ~/opt
-$ cd ~/opt
-$ git clone https://github.com/nsg-ru/bogatka-docker
-$ cd bogatka-docker/
+```bash
+mkdir ~/opt
+cd ~/opt
+git clone https://github.com/nsg-ru/bogatka-docker
+cd bogatka-docker/
+```
 
 Создать docker_gwbridge
-$ ./create-gwbridge
+```bash
+./create-gwbridge
+```
 
 Инициировать рой
-$ docker swarm init --advertise-addr 10.33.32.32
+```bash
+docker swarm init --advertise-addr 10.33.32.32
+```
 
 Удалить ненужную нам сеть ingress
-$ docker network rm ingress
+```bash
+docker network rm ingress
+```
 
 Создать оверлейную сеть
-$ ./create-overlay
-
+```bash
+./create-overlay
+```
 
 Проверитиь наличие созданных объектов:
-
+```bash
 $ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
 eq5uad0m7xyp67hhi7340iw8i *   southport           Ready               Active              Leader              19.03.4
@@ -43,37 +53,49 @@ $ ip ad sh dev docker_gwbridge
        valid_lft forever preferred_lft forever
     inet6 fe80::42:dcff:fee2:ab93/64 scope link
        valid_lft forever preferred_lft forever
+```
 
 
 
 Запустить СУБД для Богатки
-
-$ sudo mkdir -p /var/lib/postgresql/docker/bogatka
-$ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
-$ ./run-bogatka-db
+```bash
+sudo mkdir -p /var/lib/postgresql/docker/bogatka
+sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
+./run-bogatka-db
+```
 
 Проверить что контейнер запустился:
-
+```bash
 $ docker ps
 CONTAINER ID        IMAGE                       COMMAND                  CREATED              STATUS              PORTS               NAMES
 0258f89dc10d        bitnami/postgresql:latest   "/entrypoint.sh /run…"   About a minute ago   Up About a minute   5432/tcp            bogatka-db
+```
 
 
 Создать базу данных и все таблицы
-$ ./migrate_bogatka_db
+```bash
+./migrate_bogatka_db
+```
 
 Создать пользователя 'admin' с паролем 'admin'
-$  ./seed_bogatka_db
+```bash
+./seed_bogatka_db
+```
 
 
 Создать папку
-$ sudo mkdir -p /etc/ssl/bogatka
+```bash
+sudo mkdir -p /etc/ssl/bogatka
+```
 и положить туда сертификат и ключ SSl c именами cert.pem privkey.pem
 
 Запустить Богатку
-$ ./run-bogatka
+```bash
+./run-bogatka
+```
 
 Скрипт run-bogatka может запускаться с параметрами:
+```bash
 $ ./run-bogatka -h
 OPTIONS:
 -u      - Upgrade container
@@ -82,43 +104,55 @@ OPTIONS:
 -a PORT - TCP port(default 50019)
 -w LIST - List of read-write db names(default bogatka-db)
 -o LIST - List of read-only db names(default bogatka-db)
-
+```
 --------------------------------------------------------------------------------
 
-WORKER
+# WORKER
 
 Прежде чем переходить на worker, выполним команду на manager'е:
+```bash
 $ docker swarm join-token  worker
 To add a worker to this swarm, run the following command:
 
 docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
+```
 
 
 Подготовить рабочую папку
-$ mkdir ~/opt
-$ cd ~/opt
-$ git clone https://github.com/nsg-ru/bogatka-docker
-$ cd bogatka-docker/
+```bash
+mkdir ~/opt
+cd ~/opt
+git clone https://github.com/nsg-ru/bogatka-docker
+cd bogatka-docker/
+```
 
 
 Создать docker_gwbridge
-$ ./create-gwbridge
+```bash
+./create-gwbridge
+```
 
 Подключиться к рою, выполнив команду полученную на manager'е
-$ docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
+```bash
+docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
+```
 
 
 Запустить реплику БД для Богатки(необязательно)
-
-$ sudo mkdir -p /var/lib/postgresql/docker/bogatka
-$ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
-$ ./run-bogatka-db-replica
-
+```bash
+sudo mkdir -p /var/lib/postgresql/docker/bogatka
+sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
+./run-bogatka-db-replica
+```
 
 Создать папку
-$ sudo mkdir -p /etc/ssl/bogatka
+```bash
+sudo mkdir -p /etc/ssl/bogatka
+```
 и положить туда сертификат и ключ SSl c именами cert.pem privkey.pem
 
 Запустить Богатку
-$ ./run-bogatka -o"bogataka-db-skolkovo,bogatka-db"
+```bash
+./run-bogatka -o"bogataka-db-skolkovo,bogatka-db"
+```
 (опция -o задается если мы хотим использовать для чтения локальную реплику БД)
