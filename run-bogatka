@@ -67,5 +67,10 @@ docker run -t \
   --link bogatka-db \
   --cap-add=NET_ADMIN \
   --device /dev/net/tun:/dev/net/tun \
+  -e ZBX_EXT_URL="https://10.33.32.32:10443" \
+  -e ZBX_API_URL="http://zabbix-web-nginx-pgsql" \
+  -e ZBX_WEB_PORT=10443 \
+  -e ZBX_SND_HOST="zabbix-server-pgsql" \
+  --link zabbix-web-nginx-pgsql \
   -d nsgru/bogatka
 
