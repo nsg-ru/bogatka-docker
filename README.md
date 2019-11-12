@@ -33,7 +33,7 @@ docker network rm ingress
 ```
 
 Проверитиь наличие созданных объектов:
-```bash
+```text
 $ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
 eq5uad0m7xyp67hhi7340iw8i *   southport           Ready               Active              Leader              19.03.4
@@ -65,7 +65,7 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
 ```
 
 Проверить что контейнер запустился:
-```bash
+```text
 $ docker ps
 CONTAINER ID        IMAGE                       COMMAND                  CREATED              STATUS              PORTS               NAMES
 0258f89dc10d        bitnami/postgresql:latest   "/entrypoint.sh /run…"   About a minute ago   Up About a minute   5432/tcp            bogatka-db
@@ -110,7 +110,7 @@ OPTIONS:
 # WORKER
 
 Прежде чем переходить на worker, выполним команду на manager'е:
-```bash
+```text
 $ docker swarm join-token  worker
 To add a worker to this swarm, run the following command:
 
