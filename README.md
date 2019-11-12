@@ -34,10 +34,10 @@ docker network rm ingress
 
 Проверитиь наличие созданных объектов:
 ```bash
-docker node ls
+$ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
 eq5uad0m7xyp67hhi7340iw8i *   southport           Ready               Active              Leader              19.03.4
-```
+
 $ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 38rm36nd0l9w        bogatka-net         overlay             swarm
@@ -46,21 +46,18 @@ NETWORK ID          NAME                DRIVER              SCOPE
 631c369d820e        host                host                local
 37a67bb6c596        none                null                local
 
-```bash
-ip ad sh dev docker_gwbridge
-```
-
+$ ip ad sh dev docker_gwbridge
 65: docker_gwbridge: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
     link/ether 02:42:dc:e2:ab:93 brd ff:ff:ff:ff:ff:ff
     inet 172.31.2.1/24 brd 172.31.2.255 scope global docker_gwbridge
        valid_lft forever preferred_lft forever
     inet6 fe80::42:dcff:fee2:ab93/64 scope link
        valid_lft forever preferred_lft forever
+```
 
 
 
 Запустить СУБД для Богатки
-
 ```bash
 sudo mkdir -p /var/lib/postgresql/docker/bogatka
 sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
@@ -68,12 +65,11 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
 ```
 
 Проверить что контейнер запустился:
-
 ```bash
-docker ps
-```
+$ docker ps
 CONTAINER ID        IMAGE                       COMMAND                  CREATED              STATUS              PORTS               NAMES
 0258f89dc10d        bitnami/postgresql:latest   "/entrypoint.sh /run…"   About a minute ago   Up About a minute   5432/tcp            bogatka-db
+```
 
 
 Создать базу данных и все таблицы
@@ -99,6 +95,7 @@ sudo mkdir -p /etc/ssl/bogatka
 ```
 
 Скрипт run-bogatka может запускаться с параметрами:
+```bash
 $ ./run-bogatka -h
 OPTIONS:
 -u      - Upgrade container
@@ -107,18 +104,18 @@ OPTIONS:
 -a PORT - TCP port(default 50019)
 -w LIST - List of read-write db names(default bogatka-db)
 -o LIST - List of read-only db names(default bogatka-db)
-
+```
 --------------------------------------------------------------------------------
 
 # WORKER
 
 Прежде чем переходить на worker, выполним команду на manager'е:
 ```bash
-docker swarm join-token  worker
-```
+$ docker swarm join-token  worker
 To add a worker to this swarm, run the following command:
 
 docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
+```
 
 
 Подготовить рабочую папку
@@ -142,7 +139,6 @@ docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznq
 
 
 Запустить реплику БД для Богатки(необязательно)
-
 ```bash
 sudo mkdir -p /var/lib/postgresql/docker/bogatka
 sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
@@ -157,6 +153,6 @@ sudo mkdir -p /etc/ssl/bogatka
 
 Запустить Богатку
 ```bash
-$ ./run-bogatka -o"bogataka-db-skolkovo,bogatka-db"
+./run-bogatka -o"bogataka-db-skolkovo,bogatka-db"
 ```
 (опция -o задается если мы хотим использовать для чтения локальную реплику БД)
