@@ -1,8 +1,12 @@
+#!/bin/bash
+
+NAME=${1-`hostname`}
+
 docker run -t \
-  --name zbx-agent-$1 \
+  --name zbx-agent-$NAME \
   --network bogatka-net \
   --restart unless-stopped \
-  -e ZBX_HOSTNAME="$1" \
+  -e ZBX_HOSTNAME="$NAME" \
   -e ZBX_SERVER_HOST="zabbix-server-pgsql" \
   --link zabbix-server-pgsql:zabbix-server \
   --privileged \
