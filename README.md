@@ -19,8 +19,10 @@ cd bogatka-docker/
 
 Инициировать рой
 ```bash
-docker swarm init --advertise-addr 10.33.32.32
+docker swarm init --advertise-addr HOSTNAME
 ```
+где HOSTNAME - адрес или доменное имя по которому можно соединиться с данным хостом.
+
 
 Удалить ненужную нам сеть ingress
 ```bash
