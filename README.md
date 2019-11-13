@@ -74,12 +74,12 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 
 Создать базу данных и все таблицы
 ```bash
-./migrate_bogatka_db
+./migrate-bogatka-db
 ```
 
 Создать пользователя 'admin' с паролем 'admin'
 ```bash
-./seed_bogatka_db
+./seed-bogatka-db
 ```
 
 

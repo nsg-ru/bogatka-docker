@@ -50,7 +50,9 @@ then
   docker pull nsgru/bogatka
   docker stop $NAME
   docker container rm $NAME
+  ./migrate-bogatka-db
 fi
+
 
 docker run -t \
   --name $NAME \
