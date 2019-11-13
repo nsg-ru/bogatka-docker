@@ -19,8 +19,10 @@ cd bogatka-docker/
 
 Инициировать рой
 ```bash
-docker swarm init --advertise-addr 10.33.32.32
+docker swarm init --advertise-addr HOSTNAME
 ```
+где HOSTNAME - адрес или доменное имя по которому можно соединиться с данным хостом.
+
 
 Удалить ненужную нам сеть ingress
 ```bash
@@ -32,11 +34,11 @@ docker network rm ingress
 ./create-overlay
 ```
 
-Проверитиь наличие созданных объектов:
+Проверить наличие созданных объектов:
 ```text
 $ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
-eq5uad0m7xyp67hhi7340iw8i *   southport           Ready               Active              Leader              19.03.4
+eq5uad0m7xyp67hhi7340iw8i *   localhost           Ready               Active              Leader              19.03.4
 
 $ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
@@ -87,7 +89,7 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 ```bash
 sudo mkdir -p /etc/ssl/bogatka
 ```
-и положить туда сертификат и ключ SSl c именами cert.pem privkey.pem
+и положить туда сертификат и ключ SSl c именами ssl.crt ssl.key
 
 Запустить Богатку
 ```bash
@@ -99,7 +101,7 @@ sudo mkdir -p /etc/ssl/bogatka
 $ ./run-bogatka -h
 OPTIONS:
 -u      - Upgrade container
--n NAME - Container name(default southport)
+-n NAME - Container name(default localhost)
 -p PORT - HTTPS port(default 443)
 -a PORT - TCP port(default 50019)
 -w LIST - List of read-write db names(default bogatka-db)
@@ -116,7 +118,10 @@ To add a worker to this swarm, run the following command:
 
 docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
 ```
-
+Если мы хотим поключить следующий узел в режиме manager, то надо выполнить команду
+```text
+$ docker swarm join-token  manager
+```
 
 Подготовить рабочую папку
 ```bash
@@ -149,10 +154,10 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
 ```bash
 sudo mkdir -p /etc/ssl/bogatka
 ```
-и положить туда сертификат и ключ SSl c именами cert.pem privkey.pem
+и положить туда сертификат и ключ SSl c именами ssl.crt ssl.key
 
 Запустить Богатку
 ```bash
-./run-bogatka -o"bogataka-db-skolkovo,bogatka-db"
+./run-bogatka -o"bogataka-db-<replica>,bogatka-db"
 ```
 (опция -o задается если мы хотим использовать для чтения локальную реплику БД)
