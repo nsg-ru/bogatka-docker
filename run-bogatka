@@ -61,7 +61,7 @@ docker run -t \
   -e DB_HOSTS_RO="$DB_RO" \
   -p $HTTPS_PORT:50443 \
   -p $ACARI_PORT:50019 \
-  -v /etc/ssl/bogatka:/etc/ssl/acari:ro \
+  -v /etc/ssl/bogatka:/etc/ssl/bogatka:ro \
   -v /var/log/bogatka_$NAME:/var/log \
   -v /etc/localtime:/etc/localtime:ro \
   --link bogatka-db \
@@ -73,4 +73,3 @@ docker run -t \
   -e ZBX_SND_HOST="zabbix-server-pgsql" \
   --link zabbix-web-nginx-pgsql \
   -d nsgru/bogatka
-
