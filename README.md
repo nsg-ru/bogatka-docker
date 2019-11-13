@@ -36,7 +36,7 @@ docker network rm ingress
 ```text
 $ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
-eq5uad0m7xyp67hhi7340iw8i *   southport           Ready               Active              Leader              19.03.4
+eq5uad0m7xyp67hhi7340iw8i *   localhost           Ready               Active              Leader              19.03.4
 
 $ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
@@ -99,7 +99,7 @@ sudo mkdir -p /etc/ssl/bogatka
 $ ./run-bogatka -h
 OPTIONS:
 -u      - Upgrade container
--n NAME - Container name(default southport)
+-n NAME - Container name(default localhost)
 -p PORT - HTTPS port(default 443)
 -a PORT - TCP port(default 50019)
 -w LIST - List of read-write db names(default bogatka-db)
@@ -153,6 +153,6 @@ sudo mkdir -p /etc/ssl/bogatka
 
 Запустить Богатку
 ```bash
-./run-bogatka -o"bogataka-db-skolkovo,bogatka-db"
+./run-bogatka -o"bogataka-db-<replica>,bogatka-db"
 ```
 (опция -o задается если мы хотим использовать для чтения локальную реплику БД)
