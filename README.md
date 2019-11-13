@@ -34,7 +34,7 @@ docker network rm ingress
 ./create-overlay
 ```
 
-Проверитиь наличие созданных объектов:
+Проверить наличие созданных объектов:
 ```text
 $ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
@@ -89,7 +89,7 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 ```bash
 sudo mkdir -p /etc/ssl/bogatka
 ```
-и положить туда сертификат и ключ SSl c именами cert.pem privkey.pem
+и положить туда сертификат и ключ SSl c именами ssl.crt ssl.key
 
 Запустить Богатку
 ```bash
@@ -118,7 +118,10 @@ To add a worker to this swarm, run the following command:
 
 docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
 ```
-
+Если мы хотим поключить следующий узел в режиме manager, то надо выполнить команду
+```text
+$ docker swarm join-token  manager
+```
 
 Подготовить рабочую папку
 ```bash
@@ -151,7 +154,7 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
 ```bash
 sudo mkdir -p /etc/ssl/bogatka
 ```
-и положить туда сертификат и ключ SSl c именами cert.pem privkey.pem
+и положить туда сертификат и ключ SSl c именами ssl.crt ssl.key
 
 Запустить Богатку
 ```bash
