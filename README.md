@@ -161,3 +161,9 @@ sudo mkdir -p /etc/ssl/bogatka
 ./run-bogatka -o"bogataka-db-<replica>,bogatka-db"
 ```
 (опция -o задается если мы хотим использовать для чтения локальную реплику БД)
+
+# Полезные команды
+Восстановление роя
+```bash
+docker swarm init --force-new-cluster
+```
