@@ -10,9 +10,10 @@ run_bogatka_help()
   echo "-w LIST - List of read-write db names(default bogatka-db)"
   echo "-o LIST - List of read-only db names(default bogatka-db)"
   echo "-z URL  - Zabbix web URL(default https://localhost:10443)"
+  echo "-m URL  - Map provider URL"
 }
 
-while getopts "un:p:a:w:o:z:h" opt
+while getopts "un:p:a:w:o:z:m:h" opt
 do
   case $opt in
     n) NAME=$OPTARG;;
@@ -21,6 +22,7 @@ do
     w) DB_RW=$OPTARG;;
     o) DB_RO=$OPTARG;;
     z) ZEU=$OPTARG;;
+    m) MAP=$OPTARG;;
     h) HELP=true;;
     u) UPGRADE=true;;
     *) run_bogatka_help
@@ -40,6 +42,7 @@ ACARI_PORT=${ACARI_PORT-50019}
 DB_RW=${DB_RW-bogatka-db}
 DB_RO=${DB_RO-bogatka-db}
 ZEU=${ZEU-"https://localhost:10443"}
+MAP=${MAP-""}
 
 echo "Bogatka will run with parameters:"
 echo "NAME=$NAME"
@@ -48,6 +51,7 @@ echo "ACARI_PORT=$ACARI_PORT"
 echo "DB_HOSTS_RW=$DB_RW"
 echo "DB_HOSTS_RO=$DB_RO"
 echo "ZABBIX_URL=$ZEU"
+echo "MAP_PROVIDER_URL=$MAP"
 
 if [ $UPGRADE ]
 then
@@ -73,6 +77,7 @@ docker run -t \
   --link bogatka-db \
   --cap-add=NET_ADMIN \
   --device /dev/net/tun:/dev/net/tun \
+  -e MAP_PROVIDER_URL="$MAP" \
   -e ZBX_EXT_URL="$ZEU" \
   -e ZBX_API_URL="http://zabbix-web-nginx-pgsql" \
   -e ZBX_WEB_PORT=10443 \
