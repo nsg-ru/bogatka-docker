@@ -1,0 +1,11 @@
+#!/bin/bash
+
+docker run -t \
+  --name bogatka-map \
+  --hostname bogatka-map \
+  --network bogatka-net \
+  --restart unless-stopped \
+  -v /var/lib/openmaptiles/data:/data \
+  -p 8080:80 \
+  -d klokantech/openmaptiles-server:latest
+
