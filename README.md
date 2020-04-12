@@ -101,11 +101,13 @@ sudo mkdir -p /etc/ssl/bogatka
 $ ./run-bogatka -h
 OPTIONS:
 -u      - Upgrade container
--n NAME - Container name(default localhost)
+-n NAME - Container name(default imo)
 -p PORT - HTTPS port(default 443)
 -a PORT - TCP port(default 50019)
 -w LIST - List of read-write db names(default bogatka-db)
 -o LIST - List of read-only db names(default bogatka-db)
+-z URL  - Zabbix web URL(default https://localhost:10443)
+-m URL  - Map provider URL
 ```
 --------------------------------------------------------------------------------
 
