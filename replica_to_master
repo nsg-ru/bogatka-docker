@@ -1,0 +1,5 @@
+#!/bin/bash
+
+NAME=bogatka-db-${1-`hostname`}
+
+docker exec $NAME touch /tmp/postgresql.trigger.5432
