@@ -6,6 +6,7 @@ run_bogatka_help()
   echo "-u      - Upgrade container"
   echo "-n NAME - Container name(default `hostname`)"
   echo "-p PORT - HTTPS port(default 443)"
+  echo "-i PORT - API port(default 50444)"
   echo "-a PORT - TCP port(default 50019)"
   echo "-w LIST - List of read-write db names(default bogatka-db)"
   echo "-o LIST - List of read-only db names(default bogatka-db)"
@@ -13,11 +14,12 @@ run_bogatka_help()
   echo "-m URL  - Map provider URL"
 }
 
-while getopts "un:p:a:w:o:z:m:h" opt
+while getopts "un:p:i:a:w:o:z:m:h" opt
 do
   case $opt in
     n) NAME=$OPTARG;;
     p) HTTPS_PORT=$OPTARG;;
+    i) API_PORT=$OPTARG;;
     a) ACARI_PORT=$OPTARG;;
     w) DB_RW=$OPTARG;;
     o) DB_RO=$OPTARG;;
@@ -38,6 +40,7 @@ fi
 
 NAME=${NAME-`hostname`}
 HTTPS_PORT=${HTTPS_PORT-443}
+API_PORT=${HTTPS_PORT-50444}
 ACARI_PORT=${ACARI_PORT-50019}
 DB_RW=${DB_RW-bogatka-db}
 DB_RO=${DB_RO-bogatka-db}
@@ -47,6 +50,7 @@ MAP=${MAP-""}
 echo "Bogatka will run with parameters:"
 echo "NAME=$NAME"
 echo "HTTPS_PORT=$HTTPS_PORT"
+echo "API_PORT=$API_PORT"
 echo "ACARI_PORT=$ACARI_PORT"
 echo "DB_HOSTS_RW=$DB_RW"
 echo "DB_HOSTS_RO=$DB_RO"
@@ -71,6 +75,7 @@ docker run -t \
   -e DB_HOSTS_RW="$DB_RW" \
   -e DB_HOSTS_RO="$DB_RO" \
   -p $HTTPS_PORT:50443 \
+  -p $API_PORT:50444 \
   -p $ACARI_PORT:50019 \
   -p 80:50080 \
   -v /home/bogatka/opt/download:/opt/app/download \
