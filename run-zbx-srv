@@ -38,7 +38,7 @@ docker run -t \
   -e PHP_TZ="Europe/Moscow" \
   --link zabbix-postgres-server:postgres \
   --link zabbix-server-pgsql:zabbix-server \
-  -p 10443:443 \
+  -p 10443:8443 \
   -v /etc/ssl/bogatka:/etc/ssl/nginx:ro \
   -v /etc/localtime:/etc/localtime:ro \
   -d zabbix/zabbix-web-nginx-pgsql:latest
