@@ -2,6 +2,6 @@
 
 docker run -t --rm \
   --network bogatka-net \
-  -e DB_HOST=bogatka-db \
+  -e DB_HOST=bogatka-db-`hostname` \
   --cap-add=NET_ADMIN \
   nsgru/bogatka eval "AcariServer.Release.migrate"
