@@ -63,7 +63,7 @@ $ ip ad sh dev docker_gwbridge
 ```bash
 sudo mkdir -p /var/lib/postgresql/docker/bogatka
 sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
-./run-bogatka-db
+./run-db
 ```
 
 Проверить что контейнер запустился:
@@ -101,9 +101,11 @@ sudo mkdir -p /etc/ssl/bogatka
 $ ./run-bogatka -h
 OPTIONS:
 -u      - Upgrade container
--n NAME - Container name(default imo)
+-n NAME - Container name(default userv1)
 -p PORT - HTTPS port(default 443)
--a PORT - TCP port(default 50019)
+-a PORT - TLS port(default 50019)
+-t PORT - TCP port(default 50020)
+-i PORT - API port(default 50444)
 -w LIST - List of read-write db names(default bogatka-db)
 -o LIST - List of read-only db names(default bogatka-db)
 -z URL  - Zabbix web URL(default https://localhost:10443)
@@ -146,10 +148,14 @@ docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznq
 
 
 Запустить реплику БД для Богатки(необязательно)
+Отредактируйте скрипт run-db.
+Обязательно установите переменные
+MODE=slave
+MASTER_NAME=<имя главной БД>
 ```bash
 sudo mkdir -p /var/lib/postgresql/docker/bogatka
 sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
-./run-bogatka-db-replica
+./run-db
 ```
 
 Создать папку
