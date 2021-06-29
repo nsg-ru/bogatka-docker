@@ -6,21 +6,23 @@ run_bogatka_help()
   echo "-u      - Upgrade container"
   echo "-n NAME - Container name(default `hostname`)"
   echo "-p PORT - HTTPS port(default 443)"
+  echo "-a PORT - TLS port(default 50019)"
+  echo "-t PORT - TCP port(default 50020)"
   echo "-i PORT - API port(default 50444)"
-  echo "-a PORT - TCP port(default 50019)"
   echo "-w LIST - List of read-write db names(default bogatka-db)"
   echo "-o LIST - List of read-only db names(default bogatka-db)"
   echo "-z URL  - Zabbix web URL(default https://localhost:10443)"
   echo "-m URL  - Map provider URL"
 }
 
-while getopts "un:p:i:a:w:o:z:m:h" opt
+while getopts "un:p:i:a:t:w:o:z:m:h" opt
 do
   case $opt in
     n) NAME=$OPTARG;;
     p) HTTPS_PORT=$OPTARG;;
     i) API_PORT=$OPTARG;;
     a) ACARI_PORT=$OPTARG;;
+    t) TCP_PORT=$OPTARG;;
     w) DB_RW=$OPTARG;;
     o) DB_RO=$OPTARG;;
     z) ZEU=$OPTARG;;
@@ -42,6 +44,7 @@ NAME=${NAME-`hostname`}
 HTTPS_PORT=${HTTPS_PORT-443}
 API_PORT=${API_PORT-50444}
 ACARI_PORT=${ACARI_PORT-50019}
+TCP_PORT=${TCP_PORT-50020}
 DB_RW=${DB_RW-bogatka-db}
 DB_RO=${DB_RO-bogatka-db}
 ZEU=${ZEU-"https://localhost:10443"}
@@ -52,6 +55,7 @@ echo "NAME=$NAME"
 echo "HTTPS_PORT=$HTTPS_PORT"
 echo "API_PORT=$API_PORT"
 echo "ACARI_PORT=$ACARI_PORT"
+echo "TCP_PORT=$TCP_PORT"
 echo "DB_HOSTS_RW=$DB_RW"
 echo "DB_HOSTS_RO=$DB_RO"
 echo "ZABBIX_URL=$ZEU"
@@ -77,18 +81,19 @@ docker run -t \
   -p $HTTPS_PORT:50443 \
   -p $API_PORT:50444 \
   -p $ACARI_PORT:50019 \
+  -p $TCP_PORT:50020 \
   -p 80:50080 \
-  -v /home/bogatka/opt/download:/opt/app/download \
   -v /etc/ssl/bogatka:/etc/ssl/bogatka:ro \
   -v /var/log/bogatka_$NAME:/var/log \
+  -v /home/bogatka/opt/download:/opt/app/download \
   -v /etc/localtime:/etc/localtime:ro \
-  --link bogatka-db \
   --cap-add=NET_ADMIN \
   --device /dev/net/tun:/dev/net/tun \
   -e MAP_PROVIDER_URL="$MAP" \
   -e ZBX_EXT_URL="$ZEU" \
-  -e ZBX_API_URL="http://zabbix-web-nginx-pgsql" \
+  -e ZBX_API_URL="http://zabbix-web-nginx-pgsql:8080" \
   -e ZBX_WEB_PORT=10443 \
   -e ZBX_SND_HOST="zabbix-server-pgsql" \
-  --link zabbix-web-nginx-pgsql \
+  -e ZBX_SND_PORT=10051 \
   -d nsgru/bogatka
+
