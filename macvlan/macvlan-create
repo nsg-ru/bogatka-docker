@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker network create -d macvlan  --scope swarm --config-from bogatka-macvlan-conf --attachable bogatka-macvlan
