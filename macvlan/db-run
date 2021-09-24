@@ -1,18 +1,25 @@
 #!/bin/bash
 
-NODES=pg-0,pg-1
-NAME=pg-0
-PRIMARY=pg-0
-DATA=/var/lib/postgresql/docker/$NAME
+# Имена всех БД
+NODES="pg-0,pg-1"
+
+# Имя запускаемой БД
+NAME="pg-0"
+
+# Имя главной БД
+PRIMARY="pg-0"
+
+# Путь на хосте с файлами БД
+DATA="/var/lib/postgresql/docker/$NAME"
 
 # Run container
 docker run --detach --restart unless-stopped \
   --name $NAME \
   --network bogatka-macvlan \
-  --env REPMGR_PARTNER_NODES=$NODES \
-  --env REPMGR_NODE_NAME=$NAME \
-  --env REPMGR_NODE_NETWORK_NAME=$NAME \
-  --env REPMGR_PRIMARY_HOST=$PRIMARY \
+  --env REPMGR_PARTNER_NODES="$NODES" \
+  --env REPMGR_NODE_NAME="$NAME" \
+  --env REPMGR_NODE_NETWORK_NAME="$NAME" \
+  --env REPMGR_PRIMARY_HOST="$PRIMARY" \
   --env REPMGR_PASSWORD=postgres \
   --env POSTGRESQL_DATABASE=bogatka \
   --env POSTGRESQL_PASSWORD=postgres \

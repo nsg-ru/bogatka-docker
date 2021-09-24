@@ -1,13 +1,23 @@
 #!/bin/bash
 
-VER=1.3.11-pre2
-NAME=bogatka-macvlan
-DB_RW=pg-0
-DB_RO=pg-0
+# Версия сервера Богатки
+VER=1.3.11
+
+# Имя сервера Богатки
+NAME=bogatka-0
+
+# Список БД для записи/чтения
+DB_RW="pg-0,pg-1"
+
+# Список БД только для чтения
+DB_RO="pg-1,pg-0"
+
+# IP адрес сервера Богатки
 IP="192.168.10.1/24"
 
-docker stop $NAME
-docker container rm $NAME
+# Раскомментируйте следующие две строки, если надо удалять ранее запущенный контейнер.
+#docker stop $NAME
+#docker container rm $NAME
 
 docker run -t -d \
   --init \
