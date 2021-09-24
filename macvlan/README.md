@@ -125,7 +125,7 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/pg-1
 
 
 # Дополнительно
-### Резервное копирование и восстановление БД
+### Работа с БД
 
 Резервная копия БД создается следующей командой
 ```bash
@@ -137,3 +137,13 @@ docker exec -it -e PGPASSWORD=postgres имя_контейнера_БД pg_dump 
 ```bash
 cat backup.sql| docker exec -i -e PGPASSWORD=postgres pg-0 psql  -U postgres  bogatka
 ```
+
+Посмотреть информацию о кластере
+```bash
+./db-show
+```
+Работа с БД вручную
+```bash
+./db-psql
+```
+Скорректируйте в скриптах имя контейнера с БД.
