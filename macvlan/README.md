@@ -132,7 +132,7 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/pg-1
 docker exec -it -e PGPASSWORD=postgres имя_контейнера_БД pg_dump  -U postgres  bogatka > backup.sql
 ```
 
-Восстановление. Создаем пустую БД как в п. , но скрипты ./bd-migrate и bd-seed не выполняем.
+Восстановление БД. Создаем пустую БД с помощью скрипта ./db-run, скрипты ./db-migrate и db-seed не выполняем.
 Выполняем команду воостановления БД из резервной копии
 ```bash
 cat backup.sql| docker exec -i -e PGPASSWORD=postgres pg-0 psql  -U postgres  bogatka
