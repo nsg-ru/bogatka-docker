@@ -6,7 +6,7 @@
 для статических адресов выбран диапазон   192.168.10.0/28\
 для динамических адресов первого хоста выбран диапазон 192.168.10.16/28\
 для динамических адресов второго хоста выбран диапазон 192.168.10.32/28\
-и т.д.
+
 
 # Конфигурирование главного узла
 
@@ -36,7 +36,7 @@ docker network rm ingress
 
 ### Создать конфигурацию сети macvlan для данного узла
 ```bash
-docker network create --config-only --subnet 192.168.10.0/24 -o parent=enp3s0 --ip-range 192.168.10.16/28 bogatka-macvlan-conf
+docker network create --config-only --subnet 192.168.10.0/24 --gateway 192.168.10.129 -o parent=enp3s0 --ip-range 192.168.10.16/28 bogatka-macvlan-conf
 ```
 Шаблон команды находится в скрипте macvlan-conf.
 
@@ -104,7 +104,7 @@ docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznq
 
 ### Создать конфигурацию сети macvlan для данного узла
 ```bash
-docker network create --config-only --subnet 192.168.10.0/24 -o parent=enp3s0 --ip-range 192.168.10.32/28 bogatka-macvlan-conf
+docker network create --config-only --subnet 192.168.10.0/24 --gateway 192.168.10.129 -o parent=enp3s0 --ip-range 192.168.10.32/28 bogatka-macvlan-conf
 ```
 Шаблон команды находится в скрипте macvlan-conf.
 Скрипт ./macvlan-create запускать не надо, так как он должен быть запущен только один раз на главном хосте.
