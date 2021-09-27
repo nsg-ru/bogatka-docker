@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Версия
+VER=alpine-5.4.4
+
+# IP адрес
+IP=192.168.10.8/24
+
+# Zabbix DB
+docker run -t \
+  --name zabbix-db \
+  --network bogatka-macvlan \
+  --restart unless-stopped \
+  -e POSTGRES_USER="zabbix" \
+  -e POSTGRES_PASSWORD="zabbix" \
+  -e POSTGRES_DB="zabbix_pwd" \
+  -v /var/lib/postgresql/docker/zabbix-db/data:/var/lib/postgresql/data \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d postgres:11.2-alpine
+
+# Zabbix server
+docker run -t \
+  --name zabbix-server \
+  --network bogatka-macvlan \
+  --restart unless-stopped \
+  -e DB_SERVER_HOST="zabbix-db" \
+  -e POSTGRES_USER="zabbix" \
+  -e POSTGRES_PASSWORD="zabbix" \
+  -e POSTGRES_DB="zabbix_pwd" \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d zabbix/zabbix-server-pgsql:$VER
+
+# Zabbix WEB
+docker run -t \
+  --name zabbix-web \
+  --network bogatka-macvlan \
+  --restart unless-stopped \
+  -e DB_SERVER_HOST="zabbix-db" \
+  -e POSTGRES_USER="zabbix" \
+  -e POSTGRES_PASSWORD="zabbix" \
+  -e POSTGRES_DB="zabbix_pwd" \
+  -e ZBX_SERVER_NAME="Богатка" \
+  -e PHP_TZ="Europe/Moscow" \
+  --cap-add=NET_ADMIN \
+  -v /etc/ssl/bogatka:/etc/ssl/nginx:ro \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d zabbix/zabbix-web-nginx-pgsql:$VER
+
+  docker exec -it --user=root zabbix-web ip ad ad dev eth0 $IP
+
