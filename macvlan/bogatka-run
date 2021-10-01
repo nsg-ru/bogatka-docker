@@ -29,6 +29,10 @@ docker run -t -d \
   --env DB_HOSTS_RO="$DB_RO" \
   --env RELEASE_COOKIE=bogatka_macvlan_nsg_stand \
   --env ETH0_STATIC_IP="$IP" \
+  --env ZBX_EXT_URL="https://84.253.109.139:8443" \
+  --env ZBX_API_URL="https://Admin:zabbix@zabbix-web:8443" \
+  --env ZBX_SND_HOST="zabbix-server" \
+  --env ZBX_SND_PORT=10051 \
   -v /etc/ssl/bogatka:/etc/ssl/bogatka:ro \
   -v /var/log/bogatka_$NAME:/var/log \
   -v /home/bogatka/opt/download:/opt/app/download \
