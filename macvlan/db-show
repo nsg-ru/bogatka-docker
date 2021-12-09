@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -it  pg-0 /opt/bitnami/scripts/postgresql-repmgr/entrypoint.sh repmgr -f /opt/bitnami/repmgr/conf/repmgr.conf cluster show

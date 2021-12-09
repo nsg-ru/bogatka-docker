@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker run -t --rm \
+  --network bogatka-macvlan \
+  --env DB_HOST=pg-0 \
+  --cap-add=NET_ADMIN \
+  nsgru/bogatka:1.3.11-pre2 eval "AcariServer.Release.migrate"

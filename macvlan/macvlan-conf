@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker network create --config-only -o parent=enp3s0 --subnet 192.168.10.0/24 --gateway 192.168.10.129 --ip-range 192.168.10.16/28 bogatka-macvlan-conf
