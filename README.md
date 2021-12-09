@@ -89,7 +89,7 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 ```bash
 sudo mkdir -p /etc/ssl/bogatka
 ```
-и положить туда сертификат и ключ SSl c именами ssl.crt ssl.key
+и положить туда сертификат и ключ SSL c именами ssl.crt ssl.key
 
 Запустить Богатку
 ```bash
@@ -162,7 +162,7 @@ sudo chown 1001:1001 /var/lib/postgresql/docker/bogatka
 ```bash
 sudo mkdir -p /etc/ssl/bogatka
 ```
-и положить туда сертификат и ключ SSl c именами ssl.crt ssl.key
+и положить туда сертификат и ключ SSL c именами ssl.crt ssl.key
 
 Запустить Богатку
 ```bash
