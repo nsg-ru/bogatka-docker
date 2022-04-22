@@ -15,7 +15,7 @@ DATA="/var/lib/postgresql/docker/$NAME"
 # Run container
 docker run --detach --restart unless-stopped \
   --name $NAME \
-  --network host \
+  --network bogatka-net \
   --env REPMGR_PARTNER_NODES="$NODES" \
   --env REPMGR_NODE_NAME="$NAME" \
   --env REPMGR_NODE_NETWORK_NAME="$NAME" \

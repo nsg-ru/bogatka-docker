@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Необходимо сделать до инициации или подключения к swarm
+# иначе эта сеть будет создана автоматически со случайными адресами
+
+docker network create \
+--subnet 172.31.2.0/24 \
+--opt com.docker.network.bridge.name=docker_gwbridge \
+--opt com.docker.network.bridge.enable_icc=false \
+--opt com.docker.network.bridge.enable_ip_masquerade=true \
+docker_gwbridge
+

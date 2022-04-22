@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Имя БД
+NAME="pg-0"
+
+docker run -t --rm \
+  --network bogatka-net \
+  --env DB_HOST=$NAME \
+  --cap-add=NET_ADMIN \
+  nsgru/bogatka:1.3.11-pre2 eval "AcariServer.Release.migrate"
