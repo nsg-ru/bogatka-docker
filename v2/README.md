@@ -116,10 +116,11 @@ cd bogatka-docker/v2
 docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
 ```
 
-Запускаем реплику БД (опционально)
+Запускаем реплику БД (опционально).
+NAME в пути и параметр NAME в скрипте db-run должны совпадать и отличаться от имени главной БД и других реплик
 ```bash
-sudo mkdir -p /var/lib/postgresql/docker/pg-1
-sudo chown 1001:1001 /var/lib/postgresql/docker/pg-1
+sudo mkdir -p /var/lib/postgresql/docker/NAME
+sudo chown 1001:1001 /var/lib/postgresql/docker/NAME
 ./db-run
 ```
 и сервер Богатки.
