@@ -174,3 +174,11 @@ docker swarm init --force-new-cluster
 --network host
 ```
 * Доменные имена хостов должны совпадать с именами серверов Богатки
+
+# Интеграция с Zabbix
+
+Zabbix запускается скриптом
+```bash
+./zabbix-run
+```
+В скрипте bogatka-run надо задать перменные ZAU, ZEU, ZSH, ZSP

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Zabbix DB
+docker run -t \
+  --name zabbix-postgres-server \
+  --network bogatka-net \
+  --restart unless-stopped \
+  -e POSTGRES_USER="zabbix" \
+  -e POSTGRES_PASSWORD="zabbix" \
+  -e POSTGRES_DB="zabbix_pwd" \
+  -v /var/lib/postgresql/docker/zabbix-bogatka/data:/var/lib/postgresql/data \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d postgres:14.3-alpine
+
+# Zabbix server
+docker run -t \
+  --name zabbix-server-pgsql \
+  --network bogatka-net \
+  --restart unless-stopped \
+  -e DB_SERVER_HOST="zabbix-postgres-server" \
+  -e POSTGRES_USER="zabbix" \
+  -e POSTGRES_PASSWORD="zabbix" \
+  -e POSTGRES_DB="zabbix_pwd" \
+  --link zabbix-postgres-server:postgres \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d zabbix/zabbix-server-pgsql:alpine-5.4-latest
+
+# Zabbix WEB
+docker run -t \
+  --name zabbix-web-nginx-pgsql \
+  --network bogatka-net \
+  --restart unless-stopped \
+  -e DB_SERVER_HOST="zabbix-postgres-server" \
+  -e POSTGRES_USER="zabbix" \
+  -e POSTGRES_PASSWORD="zabbix" \
+  -e POSTGRES_DB="zabbix_pwd" \
+  -e ZBX_SERVER_NAME="Богатка" \
+  -e PHP_TZ="Europe/Moscow" \
+  --link zabbix-postgres-server:postgres \
+  --link zabbix-server-pgsql:zabbix-server \
+  -p 10443:8443 \
+  -v /etc/ssl/bogatka:/etc/ssl/nginx:ro \
+  -v /etc/localtime:/etc/localtime:ro \
+  -d zabbix/zabbix-web-nginx-pgsql:alpine-5.4-latest
