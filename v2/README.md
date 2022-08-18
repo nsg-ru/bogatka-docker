@@ -94,7 +94,7 @@ To add a worker to this swarm, run the following command:
 
 docker swarm join --token SWMTKN-1-41rr83nf72cv0pyf1kwcf9cnndvqdepzzxs560zhtdznqb9hrb-a1tm514ru3ejzlrw5dcczab84 10.33.32.32:2377
 ```
-Если мы хотим поключить следующий узел в режиме manager, то надо выполнить команду
+Если мы хотим подключить следующий узел в режиме manager, то надо выполнить команду
 ```text
 $ docker swarm join-token  manager
 ```
@@ -141,7 +141,7 @@ docker exec -it -e PGPASSWORD=postgres имя_контейнера_БД pg_dump 
 ```
 
 Восстановление БД. Создаем пустую БД с помощью скрипта ./db-run, скрипты ./db-migrate и db-seed не выполняем.
-Выполняем команду воостановления БД из резервной копии
+Выполняем команду восстановления БД из резервной копии
 ```bash
 cat backup.sql| docker exec -i -e PGPASSWORD=postgres pg-0 psql  -U postgres  bogatka
 ```
@@ -155,6 +155,8 @@ cat backup.sql| docker exec -i -e PGPASSWORD=postgres pg-0 psql  -U postgres  bo
 ./db-psql
 ```
 Скорректируйте в скриптах имя контейнера с БД.
+
+> **_ВНИМАНИЕ:_** В процессе работы может автоматически поменяться главная БД, поэтому при повторном запуске какой-либо реплики надо уточнить имя текущей главной БД (скрипт `db-show`) и скорректировать параметр `PRIMARY` в скрипте `db-run`
 
 ### Полезные команды
 Восстановление роя
@@ -181,4 +183,4 @@ Zabbix запускается скриптом
 ```bash
 ./zabbix-run
 ```
-В скрипте bogatka-run надо задать перменные ZAU, ZEU, ZSH, ZSP
+В скрипте bogatka-run надо задать переменные ZAU, ZEU, ZSH, ZSP
