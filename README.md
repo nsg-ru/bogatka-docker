@@ -202,43 +202,43 @@ Zabbix запускается скриптом
 
 Номер порта HTTPS для выполнения API запросов к Богатке, по умолчанию 50444
 
-**BG_TLS_PORT**
+**`BG_TLS_PORT`**
 
 Номер порта для подключения клиентов по TLS, по умолчанию 50019
 
-**BG_TCP_PORT**
+**`BG_TCP_PORT`**
 
 Номер порта для подключения клиентов без TLS, по умолчанию 50020
 
-**DB_HOSTS_RW**
+**`DB_HOSTS_RW`**
 
 Список БД для записи/чтения
 
-**DB_HOSTS_RO**
+**`DB_HOSTS_RO`**
 
 Список БД только для чтения
 
-**DB_HOST** и **DB_PORT** используются только при начальной инициализации БД в скриптах migrate и seed
+**`DB_HOST`** и **`DB_PORT`** используются только при начальной инициализации БД в скриптах migrate и seed
 
 
 
 ## Параметры для подключения к Zabbix
 
-**ZBX_EXT_URL**
+**`ZBX_EXT_URL`**
 
 Внешний URL для обращения к WEB-интерфейсу Zabbix. Например:
  `ZBX_EXT_URL="https://demo.nsg.net.ru:10443"`
 
-**ZBX_API_URL**
+**`ZBX_API_URL`**
 
 URL для обработки запросов API например:
 `ZBX_API_URL="http://Admin:zabbix@zabbix-web-nginx-pgsql:8080"`
  
-**ZBX_SND_HOST**
+**`ZBX_SND_HOST`**
 
 Имя хоста сервера Zabbix
 
-**ZBX_SND_PORT**
+**`ZBX_SND_PORT`**
 
 Номер порта для приема телеметрии, по умолчанию 10051
 
